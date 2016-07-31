@@ -1,4 +1,4 @@
-# Blood Alcohol Content (BAC)
+# Blood Alcohol Content (BAC) [![Build Status](https://travis-ci.org/wadewegner/bac.svg?branch=master)](https://travis-ci.org/wadewegner/bac)
 
 A simple library for calculating blood alcohol content (BAC).
 
