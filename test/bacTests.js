@@ -5,273 +5,273 @@ var bac = require('../src/bac.js');
 
 describe('BAC', function() {
 
-	before(function(done) {
-		done();
-	});
+  before(function(done) {
+    done();
+  });
 
-	describe('Helpers', function() {
-		it('should convert 128 lbs pounds to ~58 kgs', function(done) {
+  describe('Helpers', function() {
+    it('should convert 128 lbs pounds to ~58 kgs', function(done) {
 
-			var weightInPounds = 128;
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
+      var weightInPounds = 128;
+      var weightInKgs = bac.poundsToKgs(weightInPounds);
 
-			assert.equal(weightInPounds, 128);
-			assert.equal(weightInKgs, 58.06041912365055);
+      assert.equal(weightInPounds, 128);
+      assert.equal(weightInKgs, 58.06041912365055);
 
-			done();
-		});
+      done();
+    });
 
-		it('should accurately accurately calculate a 128 lbs males body water percentage', function(done) {
+    it('should accurately accurately calculate a 128 lbs males body water percentage', function(done) {
 
-			var weightInPounds = 128;
-			var isMale = true;
+      var weightInPounds = 128;
+      var isMale = true;
 
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
-			var waterPercentage = bac.waterPercentage(isMale);
-			var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+      var weightInKgs = bac.poundsToKgs(weightInPounds);
+      var waterPercentage = bac.waterPercentage(isMale);
+      var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 
-			assert.equal(totalBodyWaterPercentage, 33.67504309171731);
+      assert.equal(totalBodyWaterPercentage, 33.67504309171731);
 
-			done();
-		});
+      done();
+    });
 
-		it('should accurately accurately calculate a 128 lbs females body water percentage', function(done) {
+    it('should accurately accurately calculate a 128 lbs females body water percentage', function(done) {
 
-			var weightInPounds = 128;
-			var isMale = false;
+      var weightInPounds = 128;
+      var isMale = false;
 
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
-			var waterPercentage = bac.waterPercentage(isMale);
-			var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+      var weightInKgs = bac.poundsToKgs(weightInPounds);
+      var waterPercentage = bac.waterPercentage(isMale);
+      var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 
-			assert.equal(totalBodyWaterPercentage, 28.449605370588767);
+      assert.equal(totalBodyWaterPercentage, 28.449605370588767);
 
-			done();
-		});
-	});
+      done();
+    });
+  });
 
-	describe('Exceptions', function() {
+  describe('Exceptions', function() {
 
-		it('should throw exception when out of bounds', function(done) {
+      it('should throw exception when out of bounds', function(done) {
 
-			expect(function () {
-				bac.bacAfterElapsedTime(.2, 2, 0.01);
-			}).to.throw('metabolism rate out of bounds');
+        expect(function() {
+          bac.bacAfterElapsedTime(.2, 2, 0.01);
+        }).to.throw('metabolism rate out of bounds');
 
-			expect(function () {
-				bac.bacAfterElapsedTime(.2, 2, 0.021);
-			}).to.throw('metabolism rate out of bounds');
+        expect(function() {
+          bac.bacAfterElapsedTime(.2, 2, 0.021);
+        }).to.throw('metabolism rate out of bounds');
 
-			done();
-		});
-	}),
+        done();
+      });
+    }),
 
-	describe('Calculations', function() {
+    describe('Calculations', function() {
 
-		it('should accurately calculate one beer for a 128 lbs male over an hour', function(done) {
+      it('should accurately calculate one beer for a 128 lbs male over an hour', function(done) {
 
-			var weightInPounds = 128;
-			var totalTimeInHours = 1;
-			var isMale = true;
-			var metabolism = .012;
+        var weightInPounds = 128;
+        var totalTimeInHours = 1;
+        var isMale = true;
+        var metabolism = .012;
 
-			var beers = [];
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
+        var beers = [];
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
 
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
-			var waterPercentage = bac.waterPercentage(isMale);
-			var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+        var weightInKgs = bac.poundsToKgs(weightInPounds);
+        var waterPercentage = bac.waterPercentage(isMale);
+        var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 
-			var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-			assert.equal(bacTotalTheoreticalPeak, 0.030192111031034485);
-			
-			var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
-			assert.equal(bacAfterElapsedTime, 0.018192111031034484);
+        var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+        assert.equal(bacTotalTheoreticalPeak, 0.030192111031034485);
 
-			done();
-		});
+        var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+        assert.equal(bacAfterElapsedTime, 0.018192111031034484);
 
-		it('should accurately calculate two beers for a 128 lbs male over an hour', function(done) {
+        done();
+      });
 
-			var weightInPounds = 128;
-			var totalTimeInHours = 1;
-			var isMale = true;
-			var metabolism = .012;
+      it('should accurately calculate two beers for a 128 lbs male over an hour', function(done) {
 
-			var beers = [];
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
+        var weightInPounds = 128;
+        var totalTimeInHours = 1;
+        var isMale = true;
+        var metabolism = .012;
 
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
-			var waterPercentage = bac.waterPercentage(isMale);
-			var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+        var beers = [];
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
 
-			var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-			assert.equal(bacTotalTheoreticalPeak, 0.06038422206206897);
-			
-			var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
-			assert.equal(bacAfterElapsedTime, 0.048384222062068966);
+        var weightInKgs = bac.poundsToKgs(weightInPounds);
+        var waterPercentage = bac.waterPercentage(isMale);
+        var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 
-			done();
-		});
+        var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+        assert.equal(bacTotalTheoreticalPeak, 0.06038422206206897);
 
-		it('should accurately calculate two beers for a 128 lbs male over two hours', function(done) {
+        var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+        assert.equal(bacAfterElapsedTime, 0.048384222062068966);
 
-			var weightInPounds = 128;
-			var totalTimeInHours = 2;
-			var isMale = true;
-			var metabolism = .012;
+        done();
+      });
 
-			var beers = [];
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
+      it('should accurately calculate two beers for a 128 lbs male over two hours', function(done) {
 
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
-			var waterPercentage = bac.waterPercentage(isMale);
-			var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+        var weightInPounds = 128;
+        var totalTimeInHours = 2;
+        var isMale = true;
+        var metabolism = .012;
 
-			var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-			assert.equal(bacTotalTheoreticalPeak, 0.06038422206206897);
-			
-			var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
-			assert.equal(bacAfterElapsedTime, 0.03638422206206897);
+        var beers = [];
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
 
-			done();
-		});
+        var weightInKgs = bac.poundsToKgs(weightInPounds);
+        var waterPercentage = bac.waterPercentage(isMale);
+        var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 
-		it('should accurately calculate one beer for a 128 lbs female over an hour', function(done) {
+        var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+        assert.equal(bacTotalTheoreticalPeak, 0.06038422206206897);
 
-			var weightInPounds = 128;
-			var totalTimeInHours = 1;
-			var isMale = false;
-			var metabolism = .012;
+        var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+        assert.equal(bacAfterElapsedTime, 0.03638422206206897);
 
-			var beers = [];
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
+        done();
+      });
 
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
-			var waterPercentage = bac.waterPercentage(isMale);
-			var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+      it('should accurately calculate one beer for a 128 lbs female over an hour', function(done) {
 
-			var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-			assert.equal(bacTotalTheoreticalPeak, 0.035737600812244905);
-			
-			var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
-			assert.equal(bacAfterElapsedTime, 0.023737600812244904);
+        var weightInPounds = 128;
+        var totalTimeInHours = 1;
+        var isMale = false;
+        var metabolism = .012;
 
-			done();
-		});
+        var beers = [];
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
 
-		it('should accurately calculate two beers for a 128 lbs female over an hour', function(done) {
+        var weightInKgs = bac.poundsToKgs(weightInPounds);
+        var waterPercentage = bac.waterPercentage(isMale);
+        var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 
-			var weightInPounds = 128;
-			var totalTimeInHours = 1;
-			var isMale = false;
-			var metabolism = .012;
+        var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+        assert.equal(bacTotalTheoreticalPeak, 0.035737600812244905);
 
-			var beers = [];
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
+        var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+        assert.equal(bacAfterElapsedTime, 0.023737600812244904);
 
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
-			var waterPercentage = bac.waterPercentage(isMale);
-			var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+        done();
+      });
 
-			var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-			assert.equal(bacTotalTheoreticalPeak, 0.07147520162448981);
-			
-			var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
-			assert.equal(bacAfterElapsedTime, 0.05947520162448981);
+      it('should accurately calculate two beers for a 128 lbs female over an hour', function(done) {
 
-			done();
-		});
+        var weightInPounds = 128;
+        var totalTimeInHours = 1;
+        var isMale = false;
+        var metabolism = .012;
 
-		it('should accurately calculate two beers for a 128 lbs female over two hours', function(done) {
+        var beers = [];
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
 
-			var weightInPounds = 128;
-			var totalTimeInHours = 2;
-			var isMale = false;
-			var metabolism = .012;
+        var weightInKgs = bac.poundsToKgs(weightInPounds);
+        var waterPercentage = bac.waterPercentage(isMale);
+        var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 
-			var beers = [];
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
-			beers.push({
-				abv: 0.045,
-				ounces: 12
-			});
+        var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+        assert.equal(bacTotalTheoreticalPeak, 0.07147520162448981);
 
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
-			var waterPercentage = bac.waterPercentage(isMale);
-			var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+        var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+        assert.equal(bacAfterElapsedTime, 0.05947520162448981);
 
-			var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-			assert.equal(bacTotalTheoreticalPeak, 0.07147520162448981);
-			
-			var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
-			assert.equal(bacAfterElapsedTime, 0.04747520162448981);
+        done();
+      });
 
-			done();
-		});
+      it('should accurately calculate two beers for a 128 lbs female over two hours', function(done) {
 
-		it('should accurately calculate three big beers for a 180 lbs male over two hours', function(done) {
+        var weightInPounds = 128;
+        var totalTimeInHours = 2;
+        var isMale = false;
+        var metabolism = .012;
 
-			var weightInPounds = 180;
-			var totalTimeInHours = 2;
-			var isMale = true;
-			var metabolism = .012;
+        var beers = [];
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
+        beers.push({
+          abv: 0.045,
+          ounces: 12
+        });
 
-			var beers = [];
-			beers.push({
-				abv: 0.07,
-				ounces: 12
-			});
-			beers.push({
-				abv: 0.07,
-				ounces: 12
-			});
-			beers.push({
-				abv: 0.07,
-				ounces: 12
-			});
+        var weightInKgs = bac.poundsToKgs(weightInPounds);
+        var waterPercentage = bac.waterPercentage(isMale);
+        var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
 
-			var weightInKgs = bac.poundsToKgs(weightInPounds);
-			var waterPercentage = bac.waterPercentage(isMale);
-			var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+        var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+        assert.equal(bacTotalTheoreticalPeak, 0.07147520162448981);
 
-			var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
-			assert.equal(bacTotalTheoreticalPeak, 0.10019307956965522);
-			
-			var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
-			assert.equal(bacAfterElapsedTime, 0.07619307956965521);
+        var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+        assert.equal(bacAfterElapsedTime, 0.04747520162448981);
 
-			done();
-		});
-	});
+        done();
+      });
+
+      it('should accurately calculate three big beers for a 180 lbs male over two hours', function(done) {
+
+        var weightInPounds = 180;
+        var totalTimeInHours = 2;
+        var isMale = true;
+        var metabolism = .012;
+
+        var beers = [];
+        beers.push({
+          abv: 0.07,
+          ounces: 12
+        });
+        beers.push({
+          abv: 0.07,
+          ounces: 12
+        });
+        beers.push({
+          abv: 0.07,
+          ounces: 12
+        });
+
+        var weightInKgs = bac.poundsToKgs(weightInPounds);
+        var waterPercentage = bac.waterPercentage(isMale);
+        var totalBodyWaterPercentage = bac.totalBodyWaterPercentage(weightInKgs, waterPercentage);
+
+        var bacTotalTheoreticalPeak = bac.theoreticalBacPeak(totalBodyWaterPercentage, beers);
+        assert.equal(bacTotalTheoreticalPeak, 0.10019307956965522);
+
+        var bacAfterElapsedTime = bac.bacAfterElapsedTime(bacTotalTheoreticalPeak, totalTimeInHours, metabolism);
+        assert.equal(bacAfterElapsedTime, 0.07619307956965521);
+
+        done();
+      });
+    });
 });

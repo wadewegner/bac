@@ -1,7 +1,7 @@
 {
   "name": "bac",
-  "version": "0.0.1",
-  "description": "A library for calculating blood alcohol content (BAC) levels",
+  "version": "0.0.3",
+  "description": "Blood Alcohol Content",
   "main": "bac.js",
   "dependencies": {},
   "devDependencies": {
