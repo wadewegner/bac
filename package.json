@@ -1,0 +1,24 @@
+{
+  "name": "bac",
+  "version": "0.0.1",
+  "description": "A library for calculating blood alcohol content (BAC) levels",
+  "main": "bac.js",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wadewegner/bac.git"
+  },
+  "author": "Wade Wegner",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/wadewegner/bac/issues"
+  },
+  "homepage": "https://github.com/wadewegner/bac#readme"
+}
