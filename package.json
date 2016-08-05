@@ -2,7 +2,7 @@
   "name": "bac",
   "version": "0.0.3",
   "description": "Blood Alcohol Content",
-  "main": "bac.js",
+  "main": "src/bac.js",
   "dependencies": {},
   "devDependencies": {
     "chai": "^3.5.0",
